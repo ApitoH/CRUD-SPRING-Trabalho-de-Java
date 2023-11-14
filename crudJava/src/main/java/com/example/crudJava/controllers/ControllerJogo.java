@@ -52,20 +52,20 @@ public class ControllerJogo {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteJogo(@PathVariable Long id) {
         try {
-            // Passo 1: Tenta excluir o jogo do repositório com base no ID
+            // Tenta excluir o jogo do repositório com base no ID
             repositorioJogo.deleteById(id);
 
-            /* Passo 2: Retorna uma resposta com código 204 (No Content) e corpo vazio para
+            /* Retorna uma resposta com código 204 (No Content) e corpo vazio para
                indicar exclusão bem-sucedida */
             return ResponseEntity.noContent().build();
         } catch (EmptyResultDataAccessException e) {
 
-            /* Passo 1b: Se o jogo não for encontrado, retorna um código de status 404 (Not
+            /* Se o jogo não for encontrado, retorna um código de status 404 (Not
                Found) */
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
             
-            /* Passo 1c: Se ocorrer uma exceção inesperada, retorna um código de status 500
+            /* Se ocorrer uma exceção inesperada, retorna um código de status 500
                (Internal Server Error) */
             return ResponseEntity.status(500).build();
         }
