@@ -58,32 +58,32 @@ public class ControllerEditora {
     // Exclui a editora por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEditora(@PathVariable Long id) {
-        // Passo 1: Verifica se a editora existe
+        // Verifica se a editora existe
         Editora editora = repositorioEditora.findById(id).orElse(null);
 
         if (editora != null) {
             try {
-                // Passo 2: Desassocia a editora dos jogos
+                // Desassocia a editora dos jogos
                 List<Jogo> jogos = editora.getJogos();
                 for (Jogo jogo : jogos) {
                     jogo.setEditora(null);
                 }
 
-                // Passo 3: Exclui a editora do repositório
+                // Exclui a editora do repositório
                 repositorioEditora.delete(editora);
 
-                /* Passo 4: Retorna uma resposta com código 204 (No Content) e corpo vazio para
+                /* Retorna uma resposta com código 204 (No Content) e corpo vazio para
                    indicar exclusão bem-sucedida */
                 return ResponseEntity.noContent().build();
 
             } catch (Exception e) {
                 
-                /* Passo 2b: Se ocorrer uma exceção inesperada, retorne um código de status 500
+                /* Se ocorrer uma exceção inesperada, retorne um código de status 500
                    (Internal Server Error) */
                 return ResponseEntity.status(500).build();
             }
         } else {
-            /* Passo 1b: Se a editora não for encontrada, retorne um código de status 404 (Not
+            /* Se a editora não for encontrada, retorne um código de status 404 (Not
                Found) */
             return ResponseEntity.notFound().build();
         }
